@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #e0e0e0, #f5f5f5);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333333;
+        }
+
+        .question {
+            margin-bottom: 20px;
+        }
+
+        .choices {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .choices li {
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .choices label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            cursor: pointer;
+        }
+
+        .choices input[type="checkbox"] {
+            display: none;
+        }
+
+        .choices label:hover {
+            background-color: #f5f5f5;
+        }
+
+        .choices input[type="checkbox"]:checked + label {
+            background-color: #4caf50;
+            color: #ffffff;
+        }
+
+        .submit-btn {
+            margin-top: 20px;
+        }
+    </style>
+    <title>Quiz Application</title>
+</head>
+<body>
+    <h1>Quiz</h1>
+    <form method="POST" action="{% url 'result' %}">
+        {% csrf_token %}
+        {% csrf_token %}
+        {% for question in questions %}
+        <div class="question">
+            <h3>{{ question.question_text }}</h3>
+            <ul class="choices">
+                {% for answer in question.answer_set.all %}
+                <li>
+                    <input type="checkbox" name="choice" value="{{ answer.id }}" id="choice_{{ answer.id }}">
+                    <label for="choice_{{ answer.id }}">{{ answer.text }}</label>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+        <input type="submit" class="submit-btn" value="Submit">
+    </form>
+</body>
+</html>
